@@ -33,7 +33,41 @@ class BikesPageTests(unittest.TestCase):
 			self.assertEqual(len(classes), len(self.data['items'][i]['class']), "did not equal")
 
 			for j in range(len(classes)):
-				self.assertTrue(str(self.data['items'][i]['class'][j]).upper() in str(classes[j].text).upper())
+				self.assertTrue(str(self.data['items'][i]['class'][j]).capitalize() in str(classes[j].text))
+
+
+	def test_contains_all_element_sorted_refresh(self):
+		driver = self.driver
+		driver.get("http://localhost:8000")
+
+		self.assertEqual('Bike Store' , driver.title)
+
+		elem = driver.find_elements_by_class_name('prod')
+		heads = [x.find_element_by_class_name("panel-heading").text for x in elem]
+		driver.refresh()
+		elem2 = driver.find_elements_by_class_name('prod')
+		heads2 = [x.find_element_by_class_name("panel-heading").text for x in elem2]
+		self.assertEqual(heads,heads2)
+
+
+	def test_contains_all_element_sorted_refresh1(self):
+		driver = self.driver
+		driver.get("http://localhost:8000")
+
+
+
+
+		elem = driver.find_element_by_class_name('col-md-2').find_element_by_class_name('panel-body').find_elements_by_class_name('ng-scope')
+		el = []
+		for a in elem:
+			if (a.text == 'Endurance'):
+				el = a
+
+		driver.refresh()
+
+
+
+
 
 
 
